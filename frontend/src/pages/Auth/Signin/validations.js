@@ -10,7 +10,7 @@ const validations = yup.object().shape({
         .string()
         // .min(10, "Parolanız en az 10 karakter olmalıdır.")
         .required()
-        .min(5, "Mật khẩu phải có ít nhất 8 ký tự.")
+        .min(8, "Mật khẩu phải có ít nhất 8 ký tự.")
         .required("Mật khẩu là bắt buộc"),
     passwordConfirm: yup
         .string()
