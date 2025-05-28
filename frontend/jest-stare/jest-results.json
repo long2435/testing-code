@@ -1,0 +1,135 @@
+{
+  "numFailedTestSuites": 1,
+  "numFailedTests": 0,
+  "numPassedTestSuites": 1,
+  "numPassedTests": 3,
+  "numPendingTestSuites": 0,
+  "numPendingTests": 0,
+  "numRuntimeErrorTestSuites": 1,
+  "numTodoTests": 0,
+  "numTotalTestSuites": 2,
+  "numTotalTests": 3,
+  "openHandles": [],
+  "snapshot": {
+    "added": 0,
+    "didUpdate": false,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0
+  },
+  "startTime": 1748369140286,
+  "success": false,
+  "testResults": [
+    {
+      "failureMessage": "  \u001b[1m● \u001b[22mTest suite failed to run\n\n    Cannot find module './Signin' from 'src/pages/Auth/Signin/Signin.test.js'\n\n    However, Jest was able to find:\n    \t'./Signin.test.js'\n\n    You might want to include a file extension in your import, or update your 'moduleFileExtensions', which is currently ['js', 'jsx', 'ts', 'tsx', 'json', 'node'].\n\n    See https://jestjs.io/docs/configuration#modulefileextensions-arraystring\n\n    \u001b[0m \u001b[90m 2 |\u001b[39m \u001b[36mimport\u001b[39m \u001b[33mReact\u001b[39m \u001b[36mfrom\u001b[39m \u001b[32m\"react\"\u001b[39m\u001b[33m;\u001b[39m\n     \u001b[90m 3 |\u001b[39m \u001b[36mimport\u001b[39m { render\u001b[33m,\u001b[39m screen\u001b[33m,\u001b[39m fireEvent\u001b[33m,\u001b[39m waitFor } \u001b[36mfrom\u001b[39m \u001b[32m\"@testing-library/react\"\u001b[39m\u001b[33m;\u001b[39m\n    \u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 4 |\u001b[39m \u001b[36mimport\u001b[39m \u001b[33mSignin\u001b[39m \u001b[36mfrom\u001b[39m \u001b[32m\"./Signin\"\u001b[39m\u001b[33m;\u001b[39m\n     \u001b[90m   |\u001b[39m \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n     \u001b[90m 5 |\u001b[39m \u001b[36mimport\u001b[39m { \u001b[33mBrowserRouter\u001b[39m } \u001b[36mfrom\u001b[39m \u001b[32m\"react-router-dom\"\u001b[39m\u001b[33m;\u001b[39m\n     \u001b[90m 6 |\u001b[39m \u001b[36mimport\u001b[39m { \u001b[33mAuthProvider\u001b[39m } \u001b[36mfrom\u001b[39m \u001b[32m\"../../../contexts/AuthContext\"\u001b[39m\u001b[33m;\u001b[39m\n     \u001b[90m 7 |\u001b[39m\u001b[0m\n\n      \u001b[2mat Resolver._throwModNotFoundError (\u001b[22mnode_modules/jest-runtime/node_modules/jest-resolve/build/resolver.js\u001b[2m:427:11)\u001b[22m\n      \u001b[2mat Object.require (\u001b[22m\u001b[0m\u001b[36msrc/pages/Auth/Signin/Signin.test.js\u001b[39m\u001b[0m\u001b[2m:4:1)\u001b[22m\n",
+      "leaks": false,
+      "numFailingTests": 0,
+      "numPassingTests": 0,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "openHandles": [],
+      "perfStats": {
+        "end": 0,
+        "runtime": 0,
+        "slow": false,
+        "start": 0
+      },
+      "skipped": false,
+      "snapshot": {
+        "added": 0,
+        "fileDeleted": false,
+        "matched": 0,
+        "unchecked": 0,
+        "uncheckedKeys": [],
+        "unmatched": 0,
+        "updated": 0
+      },
+      "testExecError": "Cannot find module './Signin' from 'src/pages/Auth/Signin/Signin.test.js'\n\nHowever, Jest was able to find:\n\t'./Signin.test.js'\n\nYou might want to include a file extension in your import, or update your 'moduleFileExtensions', which is currently ['js', 'jsx', 'ts', 'tsx', 'json', 'node'].\n\nSee https://jestjs.io/docs/configuration#modulefileextensions-arraystring",
+      "testFilePath": "D:\\Download\\ktmmm\\ktmmm\\e-commerce-for-testing\\frontend\\src\\pages\\Auth\\Signin\\Signin.test.js",
+      "testResults": []
+    },
+    {
+      "leaks": false,
+      "numFailingTests": 0,
+      "numPassingTests": 3,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "openHandles": [],
+      "perfStats": {
+        "end": 1748369151938,
+        "runtime": 8954,
+        "slow": true,
+        "start": 1748369142984
+      },
+      "skipped": false,
+      "snapshot": {
+        "added": 0,
+        "fileDeleted": false,
+        "matched": 0,
+        "unchecked": 0,
+        "uncheckedKeys": [],
+        "unmatched": 0,
+        "updated": 0
+      },
+      "testFilePath": "D:\\Download\\ktmmm\\ktmmm\\e-commerce-for-testing\\frontend\\src\\pages\\Products\\New.test.js",
+      "testResults": [
+        {
+          "ancestorTitles": [
+            "NewProduct Component"
+          ],
+          "duration": 2559,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "NewProduct Component can add and remove photos",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "can add and remove photos"
+        },
+        {
+          "ancestorTitles": [
+            "NewProduct Component"
+          ],
+          "duration": 3299,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "NewProduct Component successfully submits form with valid data",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "successfully submits form with valid data"
+        },
+        {
+          "ancestorTitles": [
+            "NewProduct Component"
+          ],
+          "duration": 1,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "NewProduct Component disables form elements during submission",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "disables form elements during submission"
+        }
+      ],
+      "failureMessage": null
+    }
+  ],
+  "wasInterrupted": false
+}
