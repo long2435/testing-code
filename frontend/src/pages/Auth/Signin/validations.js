@@ -1,6 +1,7 @@
 import * as yup from "yup";
 
 const validations = yup.object().shape({
+    email: yup.string().email("Nhập email hợp lệ").required("Bắt buộc"),
     email: yup
         .string()
         .email("Email không hợp lệ")
