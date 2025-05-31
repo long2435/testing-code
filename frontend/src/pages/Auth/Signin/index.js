@@ -8,22 +8,25 @@ import {
   Input,
   Button,
   Alert,
+  AlertIcon,
   FormErrorMessage,
   Text,
   InputGroup,
   InputRightElement,
   Link,
+  useToast,
 } from "@chakra-ui/react";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import biểu tượng từ react-icons
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useFormik } from "formik";
-import validationSchema from "./validations";
+import validationSchema from "./signinValidations";
 import { fetchLogin } from "../../../api";
 import { useAuth } from "../../../contexts/AuthContext";
-import { Link as RouterLink } from "react-router-dom"; // Import RouterLink từ react-router-dom : npm install react-router-dom
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 
-function Signin({ history }) {
+function Signin() {
   const { login } = useAuth();
-  const [showErrorIndicator, setShowErrorIndicator] = useState(false);
+  const navigate = useNavigate();
+  const toast = useToast();
   const [showPassword, setShowPassword] = useState(false);
 
   const formik = useFormik({
@@ -32,22 +35,89 @@ function Signin({ history }) {
       password: "",
     },
     validationSchema,
-    onSubmit: async (values, bag) => {
-      if (!values.email || !values.password) {
-        setShowErrorIndicator(true);
-      } else {
-        setShowErrorIndicator(false);
-      }
-
+    onSubmit: async (values, { setErrors, setSubmitting, setFieldError }) => {
+      console.log("Form submitted with values:", values);
+      
       try {
+        setSubmitting(true);
+        
+        // Validate form trước khi gửi
+        if (!values.email || !values.password) {
+          if (!values.email) {
+            setFieldError("email", "Email là bắt buộc");
+          }
+          if (!values.password) {
+            setFieldError("password", "Mật khẩu là bắt buộc");
+          }
+          return;
+        }
+
+        console.log("Calling fetchLogin API...");
         const loginResponse = await fetchLogin({
           email: values.email,
           password: values.password,
         });
-        login(loginResponse);
-        history.push("/profile");
-      } catch (e) {
-        bag.setErrors({ general: e.response.data.message });
+        
+        console.log("Login response:", loginResponse);
+        
+        // Gọi login từ AuthContext
+        await login(loginResponse);
+        
+        toast({
+          title: "Đăng nhập thành công!",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+        
+        // Chuyển hướng sau khi đăng nhập thành công
+        navigate("/profile");
+        
+      } catch (error) {
+        console.error("Login error:", error);
+        
+        let errorMessage = "Đăng nhập thất bại. Vui lòng thử lại.";
+        
+        if (error.response) {
+          // Lỗi từ server
+          const status = error.response.status;
+          const data = error.response.data;
+          
+          switch (status) {
+            case 400:
+              errorMessage = "Thông tin đăng nhập không hợp lệ.";
+              break;
+            case 401:
+              errorMessage = "Email hoặc mật khẩu không đúng.";
+              break;
+            case 404:
+              errorMessage = "Tài khoản không tồn tại.";
+              break;
+            case 429:
+              errorMessage = "Quá nhiều lần thử. Vui lòng thử lại sau.";
+              break;
+            case 500:
+              errorMessage = "Lỗi server. Vui lòng thử lại sau.";
+              break;
+            default:
+              errorMessage = data?.message || errorMessage;
+          }
+        } else if (error.request) {
+          // Lỗi network
+          errorMessage = "Không thể kết nối đến server. Kiểm tra kết nối mạng.";
+        }
+        
+        setErrors({ general: errorMessage });
+        
+        toast({
+          title: "Lỗi đăng nhập",
+          description: errorMessage,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      } finally {
+        setSubmitting(false);
       }
     },
   });
@@ -55,21 +125,24 @@ function Signin({ history }) {
   return (
     <div>
       <Flex align="center" width="full" justifyContent="center">
-        <Box pt={10}>
+        <Box pt={10} px={4} w="full" maxW="md">
           <Box textAlign="center">
-            <Heading>Sign In</Heading>
+            <Heading>Đăng nhập</Heading>
           </Box>
           <Box my={5}>
             {formik.errors.general && (
-              <Alert status="error">{formik.errors.general}</Alert>
+              <Alert status="error">
+                <AlertIcon />
+                {formik.errors.general}
+              </Alert>
             )}
           </Box>
           <Box my={5} textAlign="left">
             <form onSubmit={formik.handleSubmit}>
               <FormControl isInvalid={formik.touched.email && formik.errors.email}>
                 <FormLabel>
-                  E-mail
-                  {showErrorIndicator && !formik.values.email && (
+                  Email
+                  {formik.touched.email && formik.errors.email && (
                     <Text as="span" color="red.500">
                       *
                     </Text>
@@ -77,17 +150,20 @@ function Signin({ history }) {
                 </FormLabel>
                 <Input
                   name="email"
+                  type="email"
+                  placeholder="Nhập email của bạn"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.email}
+                  focusBorderColor="teal.500"
                 />
                 <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
               </FormControl>
 
               <FormControl mt="4" isInvalid={formik.touched.password && formik.errors.password}>
                 <FormLabel>
-                  Password
-                  {showErrorIndicator && !formik.values.password && (
+                  Mật khẩu
+                  {formik.touched.password && formik.errors.password && (
                     <Text as="span" color="red.500">
                       *
                     </Text>
@@ -97,9 +173,11 @@ function Signin({ history }) {
                   <Input
                     name="password"
                     type={showPassword ? "text" : "password"}
+                    placeholder="Nhập mật khẩu"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.password}
+                    focusBorderColor="teal.500"
                   />
                   <InputRightElement width="4.5rem">
                     <Button
@@ -111,6 +189,7 @@ function Signin({ history }) {
                       _hover={{ bg: "gray.300" }}
                       _active={{ bg: "gray.400" }}
                       onClick={() => setShowPassword(!showPassword)}
+                      aria-label={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
                     >
                       {showPassword ? <FaEyeSlash /> : <FaEye />}
                     </Button>
@@ -125,8 +204,16 @@ function Signin({ history }) {
                 </Link>
               </Box>
 
-              <Button mt="4" width="full" type="submit">
-                Sign In
+              <Button 
+                mt="4" 
+                width="full" 
+                type="submit"
+                colorScheme="teal"
+                isLoading={formik.isSubmitting}
+                loadingText="Đang đăng nhập..."
+                disabled={formik.isSubmitting}
+              >
+                Đăng nhập
               </Button>
             </form>
           </Box>
